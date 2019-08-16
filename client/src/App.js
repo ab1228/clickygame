@@ -1,4 +1,5 @@
 import React from 'react';
+import Image from "./components/Image";
 
 
 
@@ -15,9 +16,36 @@ class App extends React.Component {
         images_clicked: [],
         message: "Click a Picture"
     }
+    clickme = (id) => {
 
+        if (this.state.images_clicked.indexOf(id) === -1) {
+            // image doesnt exist
+            this.setState({
+                score: this.state.score + 1,
+                images_clicked: [...this.state.images_clicked, id],
+                images: this.state.images.sort(() => Math.random() - 0.5)
 
+            })
+        } else {
+            this.setState({
+                score: 0,
+                images_clicked: [],
+                images: this.state.images.sort(() => Math.random() - 0.5)
+            })
 
+        }
 
+    }
+    render() {
+        return (
+            <div>
+                <div>{this.state.message}</div>
+                <div>scroe: {this.state.score}</div>
+                {this.state.images.map((img) => (<Image id={img.id} alt={img.alt} src={img.src} key={img.id} clickme={this.clickme} />))}
+            </div>
+        )
+    }
 }
+
+
 export default App;
